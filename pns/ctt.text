@@ -1,0 +1,7 @@
+or $gaji == "" or $dansos=="" or $iw_korpkab=="" or $dapens_korp==""
+							or $simpi_armed =="" or $iw_korp_unit =="" or $baznaz_infaq =="" or $baznaz_zakat =="" or $bank_bpd =="" or $bpr_gnsimping =="" or $k_bina_sehat =="" 
+							or $kop_sekar =="" or $arisan_sas =="" or $bpjs_kes =="" or $bpjs_ker =="" or $lain ==""
+
+
+                            or $baznaz_zakat =="" or $bank_bpd =="" or $bpr_gnsimping =="" 
+							or $k_bina_sehat=="" or $kop_sekar=="" or $arisan_sas=="" or $bpjs_kes=="" or $bpjs_ker=="" or $lain==""

@@ -1,0 +1,335 @@
+<?php
+  include "../koneksi.php";
+  session_start();
+ if($_SESSION['username']==''){
+     header("location: user_lihat.php");
+ }
+
+  if(!isset($_SESSION['id_user'])){
+    die("<b>Oops!</b> Access Failed.
+        <p>Sistem Logout. Anda harus melakukan Login kembali.</p>
+        <button type='button' onclick=location.href='./'>Back</button>");
+}
+if($_SESSION['hak_akses']!="pegawai"){
+    die("<b>Oops!</b> Access Failed.
+        <p>Anda Bukan Pegawai.</p>
+        <button type='button' onclick=location.href='./'>Back</button>");}
+
+ 
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>view user information - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div class="container bootdey flex-grow-1 container-p-y">
+
+            <div class="media align-items-center py-3 mb-3">
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-100 rounded-circle">
+              <div class="media-body ml-4">
+                <?php
+                $sql_2 = mysqli_query($connect, "SELECT b.id_peg, b.nama, b.gaji, b.rek, b.tgl, a.password FROM tb_user a JOIN karyawan b ON a.rek=b.rek where username='$_SESSION[username]'")
+                or die (mysqli_error($connect));
+                $data =mysqli_fetch_array($sql_2);
+
+                ?>
+                <h4 class="font-weight-bold mb-0"><?=($data['nama'])?> <span class="text-muted font-weight-normal"></span></h4>
+                <div class="text-muted mb-2">Gaji : <?=($data['gaji'])?></div>
+                <a href="javascript:void(0)" class="btn btn-success btn-sm">JP</a>&nbsp;
+                
+                <a href="../auth/logout.php" class="btn btn-danger btn-sm">Logout</a>&nbsp;
+              </div>
+            </div>
+
+            <div class="card md-1">
+              <div class="card-body">
+                <table class="table table-responsive table-borderless table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Username</td>
+                      <td>:</td>
+                      <td><?=($_SESSION['username'])?></td>
+                    </tr>
+                    <tr>
+                      <td>Role</td>
+                      <td>:</td>
+                      <td><?=($_SESSION['hak_akses'])?></td>
+                    </tr>
+                    
+                  </tbody>
+                  <!-- <div class="pull-right">
+                  <a href="javascript:void(0)" class="btn btn-primary btn-sm">Edit</a>
+                  </div> -->
+                </table>
+                
+              </div>
+              <hr class="border-light m-1">
+              <div class="table-responsive">
+                <table class="table table-sm" id="user">
+                  <thead>
+                    <tr class="table-info">
+                      <th>TGL</th>
+                      <th>Potongan</th>
+                      <th>Bersih</th>
+                      <th>Detail</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                                <?php
+                                    $no = 1;
+                                    $sql = mysqli_query($connect, "SELECT *, b.id_peg, b.nama, b.gaji, b.rek, b.tgl, (gaji-dansos-iw_korpkab-dapens_korp-simpi_armed-dplk-iw_korp_unit-baznaz_infaq-baznaz_zakat-bank_bpd-bpr_gnsimping-k_bina_sehat-kop_sekar-arisan_sas-bpjs_kes-bpjs_ker-lain)
+                                     as jml_bersih ,(dansos+iw_korpkab+dapens_korp+simpi_armed+dplk+iw_korp_unit+baznaz_infaq+baznaz_zakat+bank_bpd+bpr_gnsimping+k_bina_sehat+kop_sekar+arisan_sas+bpjs_kes+bpjs_kes+lain) as jml_pot FROM tb_user a JOIN karyawan b ON a.rek=b.rek where username='$_SESSION[username]'")
+                                    or die (mysqli_error($connect));
+                                    if(mysqli_num_rows($sql)>0)
+                                    {
+                                        while ($peg =mysqli_fetch_array($sql)){?>
+                                        
+                                            <tr>
+                                                <td><?=tgl_indo($peg['tgl'])?></td>
+                                                <td><?=number_format($peg['jml_pot'])?></td>
+                                                <td><?=number_format($peg['jml_bersih'])?></td>
+                                              
+                                                <td>
+                                                <a id="set_detail" 
+                                                class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal-detail"
+                                                data-tgl="<?=$peg['tgl']?>"
+                                                data-tgl="<?=$peg['nama']?>"
+                                                data-rek="<?=$peg['rek']?>"
+                                                data-gaji="<?=$peg['gaji']?>"
+                                                data-dansos="<?=$peg['dansos']?>"
+                                                data-iw_korpkab="<?$peg['iw_korpkab']?>"
+                                                data-dapens_korp="<?$peg['dapens_korp']?>"
+                                                data-simpi_armed="<?$peg['simpi_armed']?>"
+                                                data-dplk="<?$peg['dplk']?>"
+                                                data-iw_korp_unit="<?$peg['iw_korp_unit']?>"
+                                                data-baznaz_infaq="<?$peg['baznaz_infaq']?>"
+                                                data-baznaz_zakat="<?$peg['baznaz_zakat']?>"
+                                                data-bank_bpd="<?$peg['bank_bpd']?>"
+                                                data-bpr_simping="<?$peg['bpr_gnsimping']?>"
+                                                data-k_bina_sehat="<?$peg['k_bina_sehat']?>"
+                                                data-kop_sekar="<?$peg['kop_sekar']?>"
+                                                data-arisan_sas="<?$peg['arisan_sas']?>"
+                                                data-bpjs_kes="<?$peg['bpjs_kes']?>"
+                                                data-bpjs_ker="<?$peg['bpjs_ker']?>"
+                                                data-lain="<?$peg['lain']?>">
+                                                <b>i</b>
+                                                </td>
+                                            </tr>
+                                            <hr> <?php
+                                        }
+                                    } else{
+                                        echo "<tr><td colspan =\"6\" align = \"center\">Data tidak ditemukan</td></tr>";
+                                    }
+                                ?>
+                </table>
+                </div>
+              </div>
+            
+          </div>
+</div>
+<!-- ini adlah modal -->
+<div class="modal" id="modal-detail">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title">Modal title</h5>
+        
+      </div>
+      <div class="modal-body table-responsive">
+        <table class="table table-bordered no-margin">
+          <tbody>
+            <tr>
+            <th style="">Tanggal</th>
+            <td><span id="tgl"></span></td>
+            </tr>
+            <tr>
+            <th style="">Nama</th>
+            <td><span id="nama"></span></td>
+            </tr>
+            <tr>
+            <th style="">gaji</th>
+            <td><span id="gaji"></span></td>
+            </tr>
+            <tr>
+            <th style="">dansos</th>
+            <td><span id="dansos"></span></td>
+            </tr>
+            <tr>
+            <th style="">iw_korpkab</th>
+            <td><span id="iw_korpkab"></span></td>
+            </tr>
+            <tr>
+            <th style="">dapens_korp</th>
+            <td><span id="dapens_korp"></span></td>
+            </tr>
+            <tr>
+            <th style="">simpi_armed</th>
+            <td><span id="simpi_armed"></span></td>
+            </tr>
+            <tr>
+            <th style="">dplk</th>
+            <td><span id="dplk"></span></td>
+            </tr>
+            <tr>
+            <th style="">iw_korp_unit</th>
+            <td><span id="iw_korp_unit"></span></td>
+            </tr>
+            <tr>
+            <th style="">baznaz_infaq</th>
+            <td><span id="baznaz_infaq"></span></td>
+            </tr>
+            <tr>
+            <th style="">bank_bpd</th>
+            <td><span id="bank_bpd"></span></td>
+            </tr>
+            <tr>
+            <th style="">bpr_gnsimping</th>
+            <td><span id="bpr_gnsimping"></span></td>
+            </tr>
+            <tr>
+            <th style="">k_bina_sehat</th>
+            <td><span id="k_bina_sehat"></span></td>
+            </tr>
+            <tr>
+            <th style="">kop_sekar</th>
+            <td><span id="rek"></span></td>
+            </tr>
+            <tr>
+            <th style="">arisan_sas</th>
+            <td><span id="arisan_sas"></span></td>
+            </tr>
+            <tr>
+            <th style="">bpjs_kes</th>
+            <td><span id="bpjs_kes"></span></td>
+            </tr>
+            <tr>
+            <th style="">bpjs_ker</th>
+            <td><span id="bpjs_ker"></span></td>
+            </tr>
+            <tr>
+            <th style="">lain</th>
+            <td><span id="lain"></span></td>
+            </tr>
+            
+          </tbody>
+
+        </table>
+        
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ini adlah modal -->
+
+<style type="text/css">
+body{
+    margin-top:20px;
+    background: #FFF8DC;
+}
+
+.ui-w-100 {
+    width: 100px !important;
+    height: auto;
+}
+
+.card {
+    background-clip: padding-box;
+    box-shadow: 0 1px 4px rgba(24,28,33,0.012);
+}
+
+.user-view-table td:first-child {
+    width: 9rem;
+}
+.user-view-table td {
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+}
+
+.text-light {
+    color: #babbbc !important;
+}
+
+.card .row-bordered>[class*=" col-"]::after {
+    border-color: rgba(24,28,33,0.075);
+}    
+
+.text-xlarge {
+    font-size: 170% !important;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(document).on('click', '#set_detail', function(){
+    var tgl =$(this).data('tgl');
+    var nama =$(this).data('nama');
+    var rek =$(this).data('rek');
+    var gaji =$(this).data('gaji');
+    var dansos =$(this).data('dansos');
+    var iw_korpkab =$(this).data('iw_korpkab');
+    var dapens_korp =$(this).data('dapens_korp');
+    var simpi_armed =$(this).data('simpi_armed');
+    var dplk =$(this).data('dplk');
+    var iw_korp_unit =$(this).data('tgl');
+    var baznaz_infaq =$(this).data('baznaz_infaq');
+    var baznaz_zakat =$(this).data('baznaz_zakat');
+    var bank_bpd =$(this).data('bank_bpd');
+    var bpr_gnsimping =$(this).data('bpr_gnsimping');
+    var k_bina_sehat =$(this).data('k_bina_sehat');
+    var kop_sekar =$(this).data('kop_sekar');
+    var arisan_sas =$(this).data('arisan_sas');
+    var bpjs_kes =$(this).data('bpjs_kes');
+    var bpjs_ker =$(this).data('bpjs_ker');
+    var lain =$(this).data('lain');
+    $('#tgl').text(tgl);
+    $('#rek').text(rek);
+    $('#gaji').text(gaji);
+    $('#dansos').text(dansos);
+    $('#iw_korpkab').text(iw_korpkab);
+    $('#dapens_korp').text(dapens_korp);
+    $('#simpi_armed').text(simpi_armed);
+    $('#dplk ').text(dplk );
+    $('#iw_korp_unit').text(iw_korp_unit);
+    $('#baznaz_infaq').text(baznaz_infaq);
+    $('#baznaz_zakat').text(baznaz_zakat);
+    $('#bank_bpd').text(bank_bpd);
+    $('#bpr_gnsimping').text(bpr_gnsimping);
+    $('#k_bina_sehat').text(k_bina_sehat);
+    $('#kop_sekar').text(kop_sekar);
+    $('#arisan_sas').text(arisan_sas);
+    $('#bpjs_kes').text(bpjs_kes);
+    $('#bpjs_ker').text(bpjs_ker);
+    $('#lain').text(lain);
+  })
+})
+
+// $(document).ready(function(){
+         
+//          $('#user').DataTable(
+//             {
+//                 "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+//              dom:'lBfrtip',
+//              button:['print'],
+//          }
+        
+//           )} );
+
+</script>
+</body>
+</html>
