@@ -28,7 +28,7 @@
 
     <!-- Login Form -->
     <form action="logproses.php?op=in" method="post">
-      <input type="text" id="username" class="fadeIn second" name="username" value="<?php if(isset($_COOKIE["user_login"])) { echo $_COOKIE["user_login"]; } ?>" placeholder="username">
+      <input type="text" id="username" class="fadeIn second" name="username" placeholder="username">
       <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
