@@ -30,23 +30,14 @@
 
     <div class="wrapper fadeInDown">
     <div class="main">
-
-<marquee class="marq"
+      <marquee class="marq"
          bgcolor="Green"
          behavior=alternate
          direction="left"
          loop="">
     Isi Nika jangan menggunakan titik atau koma
-</marquee>
+  </marquee>
 </div>
-        <marquee class="marq"
-                 bgcolor="Green"
-                 behavior=alternate
-                 direction="left"
-                 loop="">
-            Isi Nika jangan menggunakan titik atau koma
-        </marquee>
-    </div>
   <div id="formContent">
     <!-- Tabs Titles -->
     <h2><b><a href="daf2.php" class="active underline"> Daftar </a></b></h2>
