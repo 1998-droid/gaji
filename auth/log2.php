@@ -18,6 +18,7 @@
     
 
     <div class="wrapper fadeInDown">
+      <marquee behavior="" direction="">NIK TIDAK PAKE TITIK</marquee>
   <div id="formContent">
     <!-- Tabs Titles -->
     <h2><b><a href="daf2.php" class="active underline"> Daftar </a></b></h2>
