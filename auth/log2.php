@@ -30,13 +30,7 @@
 
     <div class="wrapper fadeInDown">
     <div class="main">
-        <marquee class="marq"
-                 bgcolor="Green"
-                 direction="left"
-                 behavior=scroll
-                 loop="">
-            Scroll
-        </marquee>
+
         <marquee class="marq"
                  bgcolor="Green"
                  behavior=alternate
