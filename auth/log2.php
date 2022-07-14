@@ -12,13 +12,33 @@
     <link rel="stylesheet" href="../_asset/css.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="../css/2.png" rel="shortcut icon">
+
+    <style>
+        .main {
+            text-align: center;
+        }
+         
+        .marq {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+    </style>
     </head>
     <body>
     
     
 
     <div class="wrapper fadeInDown">
-      <marquee behavior="" direction="">NIK TIDAK PAKE TITIK</marquee>
+    <div class="main">
+
+<marquee class="marq"
+         bgcolor="Green"
+         behavior=alternate
+         direction="left"
+         loop="">
+    Isi Nika jangan menggunakan titik atau koma
+</marquee>
+</div>
   <div id="formContent">
     <!-- Tabs Titles -->
     <h2><b><a href="daf2.php" class="active underline"> Daftar </a></b></h2>
