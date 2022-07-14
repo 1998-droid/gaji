@@ -36,7 +36,7 @@
                  behavior=alternate
                  direction="left"
                  loop="">
-            Alternate
+            Isi Nika jangan menggunakan titik atau koma
         </marquee>
     </div>
   <div id="formContent">
